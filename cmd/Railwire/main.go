@@ -12,13 +12,13 @@ import (
 
 func main() {
 
-	logger := log.New(os.Stdout, "railwire-grpc:",log.LstdFlags)
-	fetchingService := fetching.NewService( logger )
+	logger := log.New(os.Stdout, "railwire-grpc:", log.LstdFlags)
+	fetchingService := fetching.NewService(logger)
 
 	gs := grpc.NewServer()
 
-	reflection.Register( gs )
-	plans.RegisterPlansService( gs, fetchingService )
+	reflection.Register(gs)
+	plans.RegisterPlansService(gs, fetchingService)
 
 	lst, err := net.Listen("tcp", ":9092")
 	if err != nil {

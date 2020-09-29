@@ -17,7 +17,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PlansClient interface {
-	GetPlan(ctx context.Context, in *Plan, opts ...grpc.CallOption) (*FUPPlanResponse, error)
+	GetPlan(ctx context.Context, in *Plan, opts ...grpc.CallOption) (*PlanResponse, error)
 }
 
 type plansClient struct {
@@ -32,8 +32,8 @@ var plansGetPlanStreamDesc = &grpc.StreamDesc{
 	StreamName: "GetPlan",
 }
 
-func (c *plansClient) GetPlan(ctx context.Context, in *Plan, opts ...grpc.CallOption) (*FUPPlanResponse, error) {
-	out := new(FUPPlanResponse)
+func (c *plansClient) GetPlan(ctx context.Context, in *Plan, opts ...grpc.CallOption) (*PlanResponse, error) {
+	out := new(PlanResponse)
 	err := c.cc.Invoke(ctx, "/Plans/GetPlan", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (c *plansClient) GetPlan(ctx context.Context, in *Plan, opts ...grpc.CallOp
 // RegisterPlansService is called.  Any unassigned fields will result in the
 // handler for that method returning an Unimplemented error.
 type PlansService struct {
-	GetPlan func(context.Context, *Plan) (*FUPPlanResponse, error)
+	GetPlan func(context.Context, *Plan) (*PlanResponse, error)
 }
 
 func (s *PlansService) getPlan(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -71,7 +71,7 @@ func (s *PlansService) getPlan(_ interface{}, ctx context.Context, dec func(inte
 func RegisterPlansService(s grpc.ServiceRegistrar, srv *PlansService) {
 	srvCopy := *srv
 	if srvCopy.GetPlan == nil {
-		srvCopy.GetPlan = func(context.Context, *Plan) (*FUPPlanResponse, error) {
+		srvCopy.GetPlan = func(context.Context, *Plan) (*PlanResponse, error) {
 			return nil, status.Errorf(codes.Unimplemented, "method GetPlan not implemented")
 		}
 	}

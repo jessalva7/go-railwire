@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "github.com/jessalva/GoRailwire/api/;plans";
+
+service Plans{
+
+  rpc GetPlan( Plan ) returns (FUPPlanResponse);
+
+}
+
+message Plan{
+
+  string stateCode = 1;
+
+}
+
+message FUPPlanResponse{
+  PortSpeedType portSpeed = 1;
+  int32 planRentalINR = 2;
+  DataUsageType dataUsage = 3;
+  PortSpeedType afterFUP = 4;
+}
+
+message PortSpeedType{
+
+  int32 speed = 1;
+  SpeedType dataUnitType = 2;
+
+}
+
+message DataUsageType{
+
+  int32 dataAmount = 1;
+  DataUnitType dataUnitType = 2;
+
+}
+
+enum DataUnitType{
+
+  B=0;
+  KB=1;
+  MB=2;
+  GB=3;
+  TB=4;
+
+}
+
+enum SpeedType{
+
+  BytePerSecond=0;
+  BitPerSecond=1;
+  KiloBitPerSecond=2;
+  KiloBytePerSecond=3;
+  MegaBitPerSecond=4;
+  GigaBitPerSecond=5;
+  MegaBytePerSecond=6;
+  GigaBytePerSecond=7;
+
+}

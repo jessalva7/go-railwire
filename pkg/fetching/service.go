@@ -2,7 +2,7 @@ package fetching
 
 import (
 	"context"
-	"github.com/jessalva/GoRailwire/api/plans"
+	"github.com/jessalva/go-railwire/api/plans"
 	"log"
 )
 

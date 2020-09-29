@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/jessalva/GoRailwire/api/plans"
-	"github.com/jessalva/GoRailwire/pkg/fetching"
+	"github.com/jessalva/go-railwire/api/plans"
+	"github.com/jessalva/go-railwire/pkg/fetching"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"

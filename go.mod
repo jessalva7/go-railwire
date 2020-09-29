@@ -1,4 +1,4 @@
-module github.com/jessalva/GoRailwire
+module github.com/jessalva/go-railwire
 
 go 1.15
 

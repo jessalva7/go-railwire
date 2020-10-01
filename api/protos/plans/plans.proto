@@ -4,13 +4,20 @@ option go_package = "github.com/jessalva/go-railwire/api/;plans";
 
 service Plans{
 
-  rpc GetPlan( Plan ) returns (FUPPlanResponse);
+  rpc GetPlan( Plan ) returns (PlanResponse);
 
 }
 
 message Plan{
 
   string stateCode = 1;
+
+}
+
+message PlanResponse{
+
+  repeated FUPPlanResponse fupPlans = 1;
+
 
 }
 

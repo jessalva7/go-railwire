@@ -1,0 +1,9 @@
+version: '3'
+services:
+  go-railwire:
+    ports:
+      - "9092:9092"
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .

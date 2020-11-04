@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/jessalva/go-railwire/api/plans"
 	"github.com/jessalva/go-railwire/pkg/fetching"
+	"github.com/jessalva/go-railwire/pkg/repository/postgres"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -13,7 +14,8 @@ import (
 func main() {
 
 	logger := log.New(os.Stdout, "railwire-grpc:", log.LstdFlags)
-	fetchingService := fetching.NewService(logger)
+	planRepository := postgres.NewPostgres()
+	fetchingService := fetching.NewService(logger, planRepository)
 
 	gs := grpc.NewServer()
 

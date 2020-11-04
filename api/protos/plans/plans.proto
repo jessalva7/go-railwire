@@ -5,6 +5,71 @@ option go_package = "github.com/jessalva/go-railwire/api/;plans";
 service Plans{
 
   rpc GetPlan( Plan ) returns (PlanResponse);
+  rpc SavePlan( SavePlanRequest ) returns (SavePlanResponse);
+
+}
+
+message SavePlanResponse{
+
+  string planType = 1;
+  oneof PlanRequest{
+
+    FupPlanRequest fupPlanRequest = 2;
+    SMEPlan smePlan = 3;
+    SMEFUPPlan smeFUPPlan = 4;
+    UnlimitedPlan unlimitedPlan = 5;
+
+  }
+  string id = 6;
+
+}
+
+message SavePlanRequest{
+
+  string planType = 1;
+  oneof PlanRequest{
+
+      FupPlanRequest fupPlanRequest = 2;
+      SMEPlan smePlan = 3;
+      SMEFUPPlan smeFUPPlan = 4;
+      UnlimitedPlan unlimitedPlan = 5;
+
+  }
+
+
+}
+
+message FupPlanRequest{
+
+  PortSpeedType portSpeed = 1;
+  int32 planRentalINR = 2;
+  DataUsageType dataUsage = 3;
+  PortSpeedType afterFUP = 4;
+
+}
+
+message SMEPlan{
+
+  PortSpeedType portSpeed = 1;
+  int32 planRentalINR = 2;
+  PortSpeedType afterFUP = 4;
+
+}
+
+message SMEFUPPlan{
+
+  PortSpeedType portSpeed = 1;
+  int32 planRentalINR = 2;
+  DataUsageType dataUsage = 3;
+  PortSpeedType afterFUP = 4;
+
+}
+
+message UnlimitedPlan{
+
+  PortSpeedType portSpeed = 1;
+  int32 planRentalINR = 2;
+  PortSpeedType afterFUP = 4;
 
 }
 

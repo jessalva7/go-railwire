@@ -6,7 +6,6 @@ RUN go get ./...
 RUN go build -o ./bin/GoRailwire ./cmd/Railwire/main.go
 
 FROM alpine:3.9
-WORKDIR /usr/bin
 COPY --from=build /go/src/app/bin/GoRailwire /go/bin/GoRailwire
 EXPOSE 9092
 ENTRYPOINT /go/bin/GoRailwire

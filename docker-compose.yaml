@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  go-railwire:
+    ports:
+      - "9092:9092"
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .
+    links:
+      - postgres
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    ports:
+    - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=railsa
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=railwire

@@ -18,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PlansClient interface {
 	GetPlan(ctx context.Context, in *Plan, opts ...grpc.CallOption) (*PlanResponse, error)
+	SavePlan(ctx context.Context, in *SavePlanRequest, opts ...grpc.CallOption) (*SavePlanResponse, error)
 }
 
 type plansClient struct {
@@ -41,12 +42,26 @@ func (c *plansClient) GetPlan(ctx context.Context, in *Plan, opts ...grpc.CallOp
 	return out, nil
 }
 
+var plansSavePlanStreamDesc = &grpc.StreamDesc{
+	StreamName: "SavePlan",
+}
+
+func (c *plansClient) SavePlan(ctx context.Context, in *SavePlanRequest, opts ...grpc.CallOption) (*SavePlanResponse, error) {
+	out := new(SavePlanResponse)
+	err := c.cc.Invoke(ctx, "/Plans/SavePlan", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlansService is the service API for Plans service.
 // Fields should be assigned to their respective handler implementations only before
 // RegisterPlansService is called.  Any unassigned fields will result in the
 // handler for that method returning an Unimplemented error.
 type PlansService struct {
-	GetPlan func(context.Context, *Plan) (*PlanResponse, error)
+	GetPlan  func(context.Context, *Plan) (*PlanResponse, error)
+	SavePlan func(context.Context, *SavePlanRequest) (*SavePlanResponse, error)
 }
 
 func (s *PlansService) getPlan(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -66,6 +81,23 @@ func (s *PlansService) getPlan(_ interface{}, ctx context.Context, dec func(inte
 	}
 	return interceptor(ctx, in, info, handler)
 }
+func (s *PlansService) savePlan(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SavePlanRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.SavePlan(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/Plans/SavePlan",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.SavePlan(ctx, req.(*SavePlanRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
 
 // RegisterPlansService registers a service implementation with a gRPC server.
 func RegisterPlansService(s grpc.ServiceRegistrar, srv *PlansService) {
@@ -75,12 +107,21 @@ func RegisterPlansService(s grpc.ServiceRegistrar, srv *PlansService) {
 			return nil, status.Errorf(codes.Unimplemented, "method GetPlan not implemented")
 		}
 	}
+	if srvCopy.SavePlan == nil {
+		srvCopy.SavePlan = func(context.Context, *SavePlanRequest) (*SavePlanResponse, error) {
+			return nil, status.Errorf(codes.Unimplemented, "method SavePlan not implemented")
+		}
+	}
 	sd := grpc.ServiceDesc{
 		ServiceName: "Plans",
 		Methods: []grpc.MethodDesc{
 			{
 				MethodName: "GetPlan",
 				Handler:    srvCopy.getPlan,
+			},
+			{
+				MethodName: "SavePlan",
+				Handler:    srvCopy.savePlan,
 			},
 		},
 		Streams:  []grpc.StreamDesc{},

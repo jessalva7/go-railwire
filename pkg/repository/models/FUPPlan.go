@@ -29,16 +29,11 @@ func ( fupPlan *FUPPlan ) FromFUPPlanRequest( plan *plans.SavePlanRequest ){
 
 }
 
-func ( fupPlan *FUPPlan ) ToSavePlanResponse() *plans.SavePlanResponse{
+func ( fupPlan *FUPPlan ) ToFupPlan() *plans.FupPlan{
 
 
 
-	return &plans.SavePlanResponse{
-		StateCode: *plans.StateCode( plans.StateCode_value[fupPlan.StateCode] ).Enum(),
-		PlanType: plans.PlanType_FUPPlan,
-		PlanResponse: &plans.SavePlanResponse_FupPlan{
-
-			FupPlan: &plans.FupPlanType{
+	return &plans.FupPlan{
 				PortSpeed: &plans.PortSpeedType{
 					Speed:        fupPlan.PortSpeed,
 					DataUnitType: *plans.SpeedType(plans.SpeedType_value[fupPlan.PortSpeedUOM]).Enum(),
@@ -52,8 +47,6 @@ func ( fupPlan *FUPPlan ) ToSavePlanResponse() *plans.SavePlanResponse{
 					DataAmount:   fupPlan.DataUsage,
 					DataUnitType: *plans.DataUnitType(plans.DataUnitType_value[fupPlan.DataUsageUOM]).Enum(),
 				},
-			},
-		},
-	}
+			}
 
 }

@@ -4,22 +4,21 @@ option go_package = "github.com/jessalva/go-railwire/api/;plans";
 
 service Plans{
 
-  rpc GetPlan( Plan ) returns (PlanResponse);
+  rpc GetPlan( GetPlanRequest ) returns (GetPlansResponse);
   rpc SavePlan( SavePlanRequest ) returns (SavePlanResponse);
 
 }
 
 message SavePlanResponse{
 
-
   StateCode stateCode = 1;
   PlanType planType = 2;
   oneof PlanResponse{
 
-    FupPlanType fupPlan = 3;
-    SMEPlanType smePlan = 4;
-    SMEFUPPlanType smeFUPPlan = 5;
-    UnlimitedPlanType unlimitedPlan = 6;
+    FupPlan fupPlan = 3;
+    SMEPlan smePlan = 4;
+    SMEFUPPlan smeFUPPlan = 5;
+    UnlimitedPlan unlimitedPlan = 6;
 
   }
 
@@ -27,11 +26,11 @@ message SavePlanResponse{
 
 enum PlanType{
 
-  UnlimitedPlan=0;
-  FUPPlan=1;
-  SMEPlan=2;
-  SMEFUPPlan=3;
-  TopUpPlanDataBoosters=4;
+  Unlimited=0;
+  FUP=1;
+  SME=2;
+  SME_FUP=3;
+  TopUpDataBoosters=4;
 
 }
 
@@ -41,17 +40,17 @@ message SavePlanRequest{
   PlanType planType = 2;
   oneof PlanRequest{
 
-      FupPlanType fupPlan = 3;
-      SMEPlanType smePlan = 4;
-      SMEFUPPlanType smeFUPPlan = 5;
-      UnlimitedPlanType unlimitedPlan = 6;
+      FupPlan fupPlan = 3;
+      SMEPlan smePlan = 4;
+      SMEFUPPlan smeFUPPlan = 5;
+      UnlimitedPlan unlimitedPlan = 6;
 
   }
 
 
 }
 
-message FupPlanType{
+message FupPlan{
 
   PortSpeedType portSpeed = 1;
   int32 planRentalINR = 2;
@@ -60,7 +59,7 @@ message FupPlanType{
 
 }
 
-message SMEPlanType{
+message SMEPlan{
 
   PortSpeedType portSpeed = 1;
   int32 planRentalINR = 2;
@@ -68,7 +67,7 @@ message SMEPlanType{
 
 }
 
-message SMEFUPPlanType{
+message SMEFUPPlan{
 
   PortSpeedType portSpeed = 1;
   int32 planRentalINR = 2;
@@ -77,7 +76,7 @@ message SMEFUPPlanType{
 
 }
 
-message UnlimitedPlanType{
+message UnlimitedPlan{
 
   PortSpeedType portSpeed = 1;
   int32 planRentalINR = 2;
@@ -85,16 +84,44 @@ message UnlimitedPlanType{
 
 }
 
-message Plan{
+message GetPlanRequest{
 
-  string stateCode = 1;
+  StateCode stateCode = 1;
+  PlanType planType = 2;
 
 }
 
-message PlanResponse{
+message GetPlansResponse{
 
-  repeated FUPPlanResponse fupPlans = 1;
+  oneof Plans{
+    FUPPlans fupPlans = 1;
+    SMEPlans smePlans = 4;
+    SMEFUPPlans smeFUPPlans = 5;
+    UnlimitedPlans unlimitedPlans = 6;
+  }
+}
 
+message FUPPlans{
+
+  repeated FupPlan fupPlans = 1;
+
+}
+
+message SMEPlans{
+
+  repeated SMEPlan smePlans = 1;
+
+}
+
+message SMEFUPPlans{
+
+  repeated SMEFUPPlan smeFupPlans = 1;
+
+}
+
+message UnlimitedPlans{
+
+  repeated UnlimitedPlan unlimitedPlans = 1;
 
 }
 

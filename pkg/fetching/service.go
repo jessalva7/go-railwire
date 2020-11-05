@@ -47,11 +47,11 @@ func (s *service) GetPlan(context context.Context, plan *plans.Plan) (*plans.Pla
 func (s *service) SavePlan(context context.Context, plan *plans.SavePlanRequest) (*plans.SavePlanResponse, error) {
 
 	s.log.Print("Got Request ", plan.PlanType)
-
-	if err := s.planRepository.Save(plan); err != nil {
+	savedPlan, err := s.planRepository.Save(plan)
+	if err != nil {
 		return nil, err
 	}
-	return &plans.SavePlanResponse{}, nil
+	return savedPlan, nil
 
 }
 

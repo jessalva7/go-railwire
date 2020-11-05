@@ -11,35 +11,47 @@ service Plans{
 
 message SavePlanResponse{
 
-  string planType = 1;
-  oneof PlanRequest{
 
-    FupPlanRequest fupPlanRequest = 2;
-    SMEPlan smePlan = 3;
-    SMEFUPPlan smeFUPPlan = 4;
-    UnlimitedPlan unlimitedPlan = 5;
+  StateCode stateCode = 1;
+  PlanType planType = 2;
+  oneof PlanResponse{
+
+    FupPlanType fupPlan = 3;
+    SMEPlanType smePlan = 4;
+    SMEFUPPlanType smeFUPPlan = 5;
+    UnlimitedPlanType unlimitedPlan = 6;
 
   }
-  string id = 6;
+
+}
+
+enum PlanType{
+
+  UnlimitedPlan=0;
+  FUPPlan=1;
+  SMEPlan=2;
+  SMEFUPPlan=3;
+  TopUpPlanDataBoosters=4;
 
 }
 
 message SavePlanRequest{
 
-  string planType = 1;
+  StateCode stateCode = 1;
+  PlanType planType = 2;
   oneof PlanRequest{
 
-      FupPlanRequest fupPlanRequest = 2;
-      SMEPlan smePlan = 3;
-      SMEFUPPlan smeFUPPlan = 4;
-      UnlimitedPlan unlimitedPlan = 5;
+      FupPlanType fupPlan = 3;
+      SMEPlanType smePlan = 4;
+      SMEFUPPlanType smeFUPPlan = 5;
+      UnlimitedPlanType unlimitedPlan = 6;
 
   }
 
 
 }
 
-message FupPlanRequest{
+message FupPlanType{
 
   PortSpeedType portSpeed = 1;
   int32 planRentalINR = 2;
@@ -48,7 +60,7 @@ message FupPlanRequest{
 
 }
 
-message SMEPlan{
+message SMEPlanType{
 
   PortSpeedType portSpeed = 1;
   int32 planRentalINR = 2;
@@ -56,7 +68,7 @@ message SMEPlan{
 
 }
 
-message SMEFUPPlan{
+message SMEFUPPlanType{
 
   PortSpeedType portSpeed = 1;
   int32 planRentalINR = 2;
@@ -65,7 +77,7 @@ message SMEFUPPlan{
 
 }
 
-message UnlimitedPlan{
+message UnlimitedPlanType{
 
   PortSpeedType portSpeed = 1;
   int32 planRentalINR = 2;
@@ -127,5 +139,46 @@ enum SpeedType{
   GigaBitPerSecond=5;
   MegaBytePerSecond=6;
   GigaBytePerSecond=7;
+
+}
+
+enum StateCode{
+
+    AndhraPradesh=0;
+    ArunachalPradesh=1;
+    Assam=2;
+    Bihar=3;
+    Chhattisgarh=4;
+    Goa=5;
+    Gujarat=6;
+    Haryana=7;
+    HimachalPradesh=8;
+    JammuAndKashmir=9;
+    Jharkhand=10;
+    Karnataka=11;
+    Kerala=12;
+    MadhyaPradesh=13;
+    Maharashtra=14;
+    Manipur=15;
+    Meghalaya=16;
+    Mizoram=17;
+    Nagaland=18;
+    Odisha=19;
+    Punjab=20;
+    Rajasthan=21;
+    Sikkim=22;
+    TamilNadu=23;
+    Telangana=24;
+    Tripura=25;
+    UttarPradesh=26;
+    Uttarakhand=27;
+    WestBengal=28;
+    AndamanAndNicobar=29;
+    Chandigarh=30;
+    DadraAndNagarHaveli=31;
+    DamanAndDiu=32;
+    Lakshadweep=33;
+    Delhi=34;
+    Puducherry=35;
 
 }

@@ -9,6 +9,11 @@ import (
 func (p postgresDB) Save(plan *plans.SavePlanRequest) ( *plans.SavePlanResponse, error) {
 
 
+	response := &plans.SavePlanResponse{
+		StateCode: *plans.StateCode(plans.StateCode_value[plan.StateCode.String()]).Enum(),
+		PlanType:  plans.PlanType_FUP,
+	}
+
 	if plan.GetFupPlan() != nil {
 
 		fupPlan := &models.FUPPlan{}
@@ -19,10 +24,15 @@ func (p postgresDB) Save(plan *plans.SavePlanRequest) ( *plans.SavePlanResponse,
 		}
 		log.Print("Created FUP Plan ", fupPlan.StateCode)
 
-		return fupPlan.ToSavePlanResponse(),nil
+		response.PlanResponse = &plans.SavePlanResponse_FupPlan{
+
+			FupPlan: fupPlan.ToFupPlan(),
+
+		}
+
 	}
 
 
-	return &plans.SavePlanResponse{},nil
+	return response,nil
 
 }

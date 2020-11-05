@@ -1,0 +1,19 @@
+{
+    "stateCode": "Kerala",
+    "planType": "FUP",
+    "fupPlan": {
+        "portSpeed": {
+            "speed": 10,
+            "dataUnitType": "MegaBitPerSecond"
+        },
+        "dataUsage": {
+            "dataAmount": 500,
+            "dataUnitType": "GB"
+        },
+        "afterFUP": {
+            "speed": 1,
+            "dataUnitType": "MegaBitPerSecond"
+        },
+        "planRentalINR": 449
+    }
+}

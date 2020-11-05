@@ -6,10 +6,10 @@ import (
 	"log"
 )
 
-func (p postgresDB) Save(plan *plans.SavePlanRequest) error {
+func (p postgresDB) Save(plan *plans.SavePlanRequest) ( *plans.SavePlanResponse, error) {
 
 
-	if plan.GetFupPlanRequest() != nil {
+	if plan.GetFupPlan() != nil {
 
 		fupPlan := &models.FUPPlan{}
 		fupPlan.FromFUPPlanRequest( plan )
@@ -17,11 +17,12 @@ func (p postgresDB) Save(plan *plans.SavePlanRequest) error {
 		if result.Error != nil {
 			log.Print( result.Error )
 		}
-		log.Print("Created Plan ", fupPlan.ID)
+		log.Print("Created FUP Plan ", fupPlan.StateCode)
 
+		return fupPlan.ToSavePlanResponse(),nil
 	}
 
 
-	return nil
+	return &plans.SavePlanResponse{},nil
 
 }
